@@ -31,7 +31,7 @@
 
         onValue(ref(database, '/'), (snapshot)=>{
             let listData = ""
-            snapshot.forEach((childSnapshot)=>{
+            snapshot.forEach((childSnapshot)=>{ 
                 const childKey = childSnapshot.key;
                 const childData = childSnapshot.val();
 
