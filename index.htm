@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyBiCjgMyDUlxW9P3LrNMdLD2ojhDF-7Juc",
@@ -28,19 +28,33 @@
                 todo: document.getElementById('plan').value,
             });
         });
+        /*
+        btndelte.addEventListener('click', (e)=>{
+            remove(ref(database, '/'));
+        });
+        */
 
         onValue(ref(database, '/'), (snapshot)=>{
-            let listData = ""
-            snapshot.forEach((childSnapshot)=>{ 
-                const childKey = childSnapshot.key;
-                const childData = childSnapshot.val();
+            snapshot.forEach((childSnapshot)=>{
+                console.log(childSnapshot.key);
+                console.log(childSnapshot.val().todo);
 
-                listData = listData+childData.todo;
+                let div = document.createElement('div');
+                div.setAttribute('class', 'card card-body mt-1');
+                div.setAttribute('id', 'div'+childSnapshot.key)
+                document.getElementById('todo_list').appendChild(div);
+                
+                let div2 = document.createElement('div');
+                div2.setAttribute('id', 'div2'+childSnapshot.key);
+                document.getElementById('div'+childSnapshot.key).appendChild(div2);
 
-                console.log(childKey);
-                console.log(childData);
-            })
-            document.getElementById('todo_list').innerHTML= listData;
+                let span = document.createElement('span');
+                let spanText = document.createTextNode(childSnapshot.val().todo);
+                span.appendChild(spanText);
+                document.getElementById('div2'+childSnapshot.key).appendChild(span);
+
+                
+            });
         });
       </script>
 </head>
