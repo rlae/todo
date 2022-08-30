@@ -28,6 +28,10 @@
                 todo: document.getElementById('plan').value,
             });
         });
+
+        const todo_delete = (e)=>{
+            console.log(e);
+        }
         /*
         btndelte.addEventListener('click', (e)=>{
             remove(ref(database, '/')); 
@@ -35,6 +39,7 @@
         */
 
         onValue(ref(database, '/'), (snapshot)=>{
+            document.getElementById('todo_list').innerHTML='';
             snapshot.forEach((childSnapshot)=>{
                 console.log(childSnapshot.key);
                 console.log(childSnapshot.val().todo);
@@ -53,7 +58,14 @@
                 span.appendChild(spanText);
                 document.getElementById('div2'+childSnapshot.key).appendChild(span);
 
+                let btn = document.createElement('button');
+                let btnTest = document.createTextNode('삭제');
+                btn.appendChild(btnTest);
+                btn.setAttribute('type', 'button');
+                btn.setAttribute('class', 'btn btn-primary float-end');
+                document.getElementById('div2'+childSnapshot.key).appendChild(btn);
                 
+                btn.addEventListener('click', todo_delete);
             });
         });
       </script>
@@ -61,12 +73,6 @@
 <body>
     <div class="container mt-3">
         <h3>todo_list</h3>
-        <div class="card card-body">
-            <div>
-            잠자기
-            <button type="button" class="btn btn-primary float-end">삭제</button>
-            </div>
-        </div>
         <div id="todo_list" ></div>
         <div class="mt-2">
             <input type="text" id="plan" placeholder="할일 입력" class="form-control ">
