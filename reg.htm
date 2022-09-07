@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, remove, get, child } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
 
         const firebaseConfig = {
         apiKey: "AIzaSyDEcL2OW3r7SKDcq0aqdBwRZvAtQuu8AQs",
@@ -22,18 +22,32 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        submit.addEventListener('click', (e)=>{
-            addData();
-        });
-        
-        const addData = ()=>{
-           if(agree.value==1){
-                set(ref(database, '/'), {
-                    name: document.getElementById('name').value,
-                    phone: document.getElementById('phone').value
+            
+            submit.addEventListener('click', (e)=>{
+                if(document.getElementById('name').value && document.getElementById('phone').value && document.getElementById('agree').checked == true){
+                get(child(ref(database), '/'+document.getElementById('phone').value)).then((snapshot)=>{
+                    if(snapshot.exists()==true){
+                        alert('이미 등록된 전화번호 입니다.')
+                        console.log(snapshot.exists());
+                    }
+                    else{
+                        set(ref(database, '/'+document.getElementById('phone').value+'/'), {
+                        name: document.getElementById('name').value,
+                        phone: document.getElementById('phone').value
+                    });
+                    document.getElementById('name').value = '';
+                    document.getElementById('phone').value = '';
+                    }
+                    
                 });
-            } 
-        }
+                }
+                else{
+                    alert('빠진 내용이 있습니다.');
+                }
+            });
+            
+        
+
     </script>
 </head>
 <body class="container mt-1">
@@ -53,7 +67,7 @@
         <div>3. 수집이용기간: 음악제 종료 후 5일 간</div>
         <div>4. 본 수집/이용동의를 거부할 수 있습니다. 단, 거부시에는 온라인을 통한 사전등록이 제한됩니다.</div>
     </div>
-    <input type="checkbox" id="agree" value="1">
+    <input type="checkbox" id="agree" onClick = "console.log(document.getElementById('agree').checked);">
     <label for="agree">개인정보 수집/이용에 동의합니다.</label>
     <button type="submit" id="submit" class="btn btn-primary mt-1 w-100">입장 사전등록</button>
 </body>
