@@ -27,23 +27,25 @@
             snapshot.forEach((childSnapshot)=>{
                 let div = document.createElement('div');
                 div.setAttribute('class', 'card card-body mt-1');
-                div.setAttribute('id', 'div'+childSnapshot.name);
-                div_2.setAttribute('id', 'div'+childSnapshot.phone)
+                div.setAttribute('id', 'div'+childSnapshot.key);
                 document.getElementById('div').appendChild(div);
-                document.getElementById('div').appendChild(div_2);
                 
-                let div2 = document.createElement('div');
-                div2.setAttribute('id', 'div2'+childSnapshot.key);
-                document.getElementById('div'+childSnapshot.key).appendChild(div2);
+                
 
                 let span = document.createElement('span');
-                let spanText = document.createTextNode(childSnapshot.val().todo);
+                let spanText = document.createTextNode(childSnapshot.val().name);
                 span.appendChild(spanText);
-                document.getElementById('div2'+childSnapshot.key).appendChild(span);
+                document.getElementById('div'+childSnapshot.key).appendChild(span);
+
+                let span1 = document.createElement('span');
+                let spanText1 = document.createTextNode(childSnapshot.val().phone);
+                span1.appendChild(spanText1);
+                document.getElementById('div'+childSnapshot.key).appendChild(span1);
+            
 
                 
 
-                btn.addEventListener('click', todo_delete);
+                console.log(childSnapshot);
             });
         });
     </script>
@@ -51,8 +53,7 @@
 <body class="container mt-2">
     <h4>제천 음악제 참가 사전등록 현황</h4>
     <h5>제천 음악제 입장을 위한 사전등록 현황입니다.</h5>
-    <div class="card">
+
         <div id="div"></div>
-    </div>
 </body>
 </html>
