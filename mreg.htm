@@ -29,6 +29,8 @@
 
                 const phone = childSnapshot.key;
                 const name = childSnapshot.val().name;
+                const enterTime = childSnapshot.val().enterTime;
+                const regTime = childSnapshot.val().regTime;
 
                 const div = document.createElement('div');
                 div.setAttribute('id', phone);
@@ -39,26 +41,36 @@
                 div1.appendChild(div1Text);
                 document.getElementById(phone).appendChild(div1);
 
+                const div4 =document.createElement('div');
+                const div4Text = document.createTextNode(phone);
+                div4.appendChild(div4Text);
+                document.getElementById(phone).appendChild(div4);
+
                 const div2 =document.createElement('div');
-                const div2Text = document.createTextNode(phone);
+                const div2Text = document.createTextNode(regTime);
                 div2.appendChild(div2Text);
                 document.getElementById(phone).appendChild(div2);
-                /*const div = document.createElement('div');
-                div.setAttribute('class', 'card card-body mt-1');
-                div.setAttribute('id', 'div'+childSnapshot.key);
-                document.getElementById('div').appendChild(div);
+                
                 
                 
 
-                const span = document.createElement('span');
-                const spanText = document.createTextNode(childSnapshot.val().name);
-                span.appendChild(spanText);
-                document.getElementById('div'+childSnapshot.key).appendChild(span);
+                let enterTimeText = "";
+                if(enterTime){
+                    enterTimeText = "입장완료("+enterTime+");";
+                    
+                }
+                else{
+                     enterTimeText = "입장 전";
+                }
+                const div3 =document.createElement('div');
+                const div3Text = document.createTextNode(enterTimeText);
+                div3.appendChild(div3Text);
+                document.getElementById(phone).appendChild(div3);
+                const hr = document.createElement('hr');
+                document.getElementById(phone).appendChild(hr);
 
-                const span1 = document.createElement('span');
-                const spanText1 = document.createTextNode(childSnapshot.val().phone);
-                span1.appendChild(spanText1);
-                document.getElementById('div'+childSnapshot.key).appendChild(span1);*/
+
+                
             });
         });
     </script>
@@ -66,7 +78,6 @@
 <body class="container mt-2">
     <h4>제천 음악제 참가 사전등록 현황</h4>
     <div>제천 음악제 입장을 위한 사전등록 현황입니다.</div>
-
-        <div id="div"></div>
+    <div id="div"></div>
 </body>
 </html>
