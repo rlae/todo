@@ -23,37 +23,61 @@
         const database = getDatabase(app);
 
         onValue(ref(database, '/'), (snapshot)=>{
-            document.getElementById('div').innerHTML="";
+            document.getElementById('div').innerHTML = ""
+            
             snapshot.forEach((childSnapshot)=>{
-                let div = document.createElement('div');
-                div.setAttribute('class', 'card card-body mt-1');
-                div.setAttribute('id', 'div'+childSnapshot.key);
+
+                const phone = childSnapshot.key;
+                const name = childSnapshot.val().name;
+                const enterTime = childSnapshot.val().enterTime;
+                const regTime = childSnapshot.val().regTime;
+
+                const div = document.createElement('div');
+                div.setAttribute('id', phone);
                 document.getElementById('div').appendChild(div);
                 
+                const div1 =document.createElement('div');
+                const div1Text = document.createTextNode(name);
+                div1.appendChild(div1Text);
+                document.getElementById(phone).appendChild(div1);
+
+                const div4 =document.createElement('div');
+                const div4Text = document.createTextNode(phone);
+                div4.appendChild(div4Text);
+                document.getElementById(phone).appendChild(div4);
+
+                const div2 =document.createElement('div');
+                const div2Text = document.createTextNode(regTime);
+                div2.appendChild(div2Text);
+                document.getElementById(phone).appendChild(div2);
+                
+                
                 
 
-                let span = document.createElement('span');
-                let spanText = document.createTextNode(childSnapshot.val().name);
-                span.appendChild(spanText);
-                document.getElementById('div'+childSnapshot.key).appendChild(span);
+                let enterTimeText = "";
+                if(enterTime){
+                    enterTimeText = "입장완료("+enterTime+");";
+                    
+                }
+                else{
+                     enterTimeText = "입장 전";
+                }
+                const div3 =document.createElement('div');
+                const div3Text = document.createTextNode(enterTimeText);
+                div3.appendChild(div3Text);
+                document.getElementById(phone).appendChild(div3);
+                const hr = document.createElement('hr');
+                document.getElementById(phone).appendChild(hr);
 
-                let span1 = document.createElement('span');
-                let spanText1 = document.createTextNode(childSnapshot.val().phone);
-                span1.appendChild(spanText1);
-                document.getElementById('div'+childSnapshot.key).appendChild(span1);
-            
 
-                 
-
-                console.log(childSnapshot);
+                
             });
         });
     </script>
 </head>
 <body class="container mt-2">
     <h4>제천 음악제 참가 사전등록 현황</h4>
-    <h5>제천 음악제 입장을 위한 사전등록 현황입니다.</h5>
-
-        <div id="div"></div>
+    <div>제천 음악제 입장을 위한 사전등록 현황입니다.</div>
+    <div id="div"></div>
 </body>
 </html>
