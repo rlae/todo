@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, remove, get, child } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAS1G_a7E3vbig_gHq5XfBrvGo9CXAv4-E",
@@ -22,12 +22,36 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
+        submit.addEventListener('click', (e)=>{
+                if(document.getElementById('id').value && document.getElementById('password').value){
+                get(child(ref(database), '/'+document.getElementById('id').value)).then((snapshot)=>{
+                    if(snapshot.exists()==true){
+                        alert('이미 등록된 아이디 입니다.')
+                    }
+                    else{
+                        set(ref(database, '/'+document.getElementById('id').value+'/'), {
+                            password: document.getElementById('password').value,
+                        
+                    });
+                    document.getElementById('id').value = '';
+                    document.getElementById('password').value = '';
+                    alert('회원가입이 완료 되었습니다.')
+                    }
+                     
+                });
+                }
+                else{
+                    alert('빠진 내용이 있습니다.');
+                }
+            });
         
     </script>
 </head>
 <body>
-    <input type="email" id="id" placeholder="아이디를 입력해주세요."><button type="button">중복확인 하기</button>
+    <input type="email" id="id" placeholder="아이디를 입력해주세요.">
     <br>
     <input type="password" id="password" placeholder="비밀번호를 입력해주세요.">
+    <button type="submit" id="submit">가입하기</button>
+    <button type="submit" onClick="location.href='main.htm';">돌아가기</button>
 </body>
 </html>
